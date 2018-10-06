@@ -1,42 +1,45 @@
 CREATE TABLE IF NOT EXISTS Business (
     id serial PRIMARY KEY,
-    business_name VARCHAR(255),
-    contact_number INT,
-    contact_name VARCHAR(255),
-    contact_email VARCHAR(255)
+    business_name VARCHAR(25)NOT NULL,
+    contact_number VARCHAR(20)NOT NULL,
+    contact_name VARCHAR(15)NOT NULL,
+    contact_email VARCHAR(35)NOT NULL
+    updtated_at 
 
-);CREATE TABLE IF NOT EXISTS Custumer (
+);CREATE TABLE IF NOT EXISTS Customers (
     id serial PRIMARY KEY,
-    customer_name VARCHAR(30),
-    customer_surname VARCHAR(40),
-    customer_email VARCHAR(50),
-    customer_phone INT,
-    business INT REFERENCES Business(id)
+    customer_name VARCHAR(25) NOT NULL,
+    customer_surname VARCHAR(20)NOT NULL,
+    customer_email VARCHAR(30)NOT NULL,
+    customer_phone VARCHAR(20)NOT NULL,
+    business INT REFERENCES Business(id)  NOT NULL
 
-);CREATE TABLE IF NOT EXISTS Business_location(
+);CREATE TABLE IF NOT EXISTS Locations(
     id serial PRIMARY KEY,
-    business_address VARCHAR(221),
-    business_id INT REFERENCES Business(id)
+    region VARCHAR(40)NOT NULL,
+    street_name VARCHAR(50)NOT NULL,
+    province VARCHAR(20)NOT NULL,
+    city VARCHAR(50)NOT NULL,
+    business_id INT REFERENCES Business(id) NOT NULL
 
 );CREATE TABLE IF NOT EXISTS Blocks(
     id serial PRIMARY KEY,
-    block_name VARCHAR(255),
-    location_id INT REFERENCES Business_location (id)
+    block_name VARCHAR(5)NOT NULL,
+    location_id INT REFERENCES locations (id) NOT NULL
 
 
-);CREATE TABLE IF NOT EXISTS Unit(
+);CREATE TABLE IF NOT EXISTS Units(
     id serial PRIMARY KEY,
-    unit_name VARCHAR(255),
-    block_id INT REFERENCES Blocks (id),
-    unit_type VARCHAR(255)
+    unit_name VARCHAR(20)NOT NULL UNIQUE,
+    block_id INT REFERENCES Blocks (id) NOT NULL,
+    unit_type VARCHAR(20)NOT NULL
 
-);CREATE TABLE IF NOT EXISTS Unit_type(
+);CREATE TABLE IF NOT EXISTS Unit_types(
     id serial PRIMARY KEY,
-    unit_name VARCHAR(255),
-    length_in_meters INT,
-    width_in_meters INT,
-    height_in_meters INT,
-    unit_id INT REFERENCES Unit(id)
+    unit_name VARCHAR(20)NOT NULL,
+    length_meters DECIMAL NOT NULL, width_meters INT NOT NULL,
+       height_meters  DECIMAL NOT NULL,
+    unit_id DECIMAL REFERENCES Units(id) NOT NULL
 );
 INSERT INTO
     Business(
@@ -50,7 +53,7 @@ VALUES
         'mzansiapps',
         '0715318886',
         'mokgokong_johannes',
-        'mokgokongjohannes @gmail.com'
+        'mokgokongjohannes@gmail.com'
     ),
     (
         'mzansi',
@@ -91,7 +94,7 @@ VALUES
         '0745318986'
     );
 INSERT INTO
-    Business_location(business_address)
+    locations(business_address)
 VALUES
     ('riversands incubation drive'),
     ('diepsloot king Senzangakhona dr'),
@@ -103,11 +106,10 @@ VALUES
     ('A'),
     ('B'),
     ('C');
-
 INSERT INTO
-    Unit(unit_name, unit_type)
+    Unit(unit_name, unit_type, block_id)
 VALUES
-    ('garage', 'garagae'),
+    ('garage', 'garage'),
     ('warehouse', 'warehouse'),
     ('depo_box', 'depo_box');
 INSERT INTO
@@ -122,3 +124,21 @@ VALUES
     ('unitb', '13', '13', '23'),
     ('unitc', '43', '43', '73'),
     ('unitd', '3', '3', '6');
+
+
+    -- get all blocks--! 
+    select * from Blocks;
+    -- get all units for a business --! 
+    SELECT unit_name,business_name
+    FROM public.unit_location INNER JOIN blocks ON unit_location.id = blocks.id INNER JOIN unit ON blocks.id = unit.id  INNER JOIN business ON unit_location.id = business.id;
+    -- get all units where type is equal garage  --! 
+    SELECT unit_name FROM unit WHERE unit_type = 'garage';
+    -- get all locations--! 
+    select * from locations;
+    -- get all units where width > 3m --! 
+    SELECT * FROM unit_type WHERE width_in_meters > 3;
+  
+
+
+
+     
