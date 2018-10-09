@@ -1,6 +1,26 @@
 .App {
   text-align: center;
 }
+form {
+  background-color: #282c34;
+  min-height: 100vh;
+  font-size: calc(8px + 1vmin);
+  color: white;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  align-items: baseline;
+  grid-template-columns: repeat(1, 1fr);
+}
+input{
+  outline: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  background-color:#282c34;
+  color:white;
+  margin:1em;
+}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -29,4 +49,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.setIt {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  margin-top: 1em;
+}
+label {
+  display: grid;
+  grid-template-columns: repeat(2, 0.8fr);
 }
